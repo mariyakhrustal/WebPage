@@ -37,13 +37,10 @@ class MyServer(BaseHTTPRequestHandler):
             post_data = self.rfile.read(content_length)
             # Печатаем полученные данные как текст
             print("Received data:", post_data.decode('utf-8'))
-            # Отправляем успешный ответ с кодом 200
-            self.send_response(200)
-            # Указываем тип ответа, в данном случае - текстовый
-            self.send_header('Content-type', 'text/plain')
-            self.end_headers()  # Завершаем формирование заголовков
-            # Отправляем клиенту сообщение "Data received"
-            self.wfile.write(b'Data received')
+            # Отправляем успешный ответ с кодом 303, который означает редирект
+            self.send_response(303)
+            self.send_header('Location', '/contacts')  # Указываем URL, на который нужно сделать редирект
+            self.end_headers()
         except Exception as e:
             # В случае ошибки (например, если данные не могут быть прочитаны)
             self.send_response(500)  # Отправляем код ошибки 500 (внутренняя ошибка сервера)
